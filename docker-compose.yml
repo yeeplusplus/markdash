@@ -48,5 +48,20 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  ai-narrator:
+    build:
+      context: ./ingest
+      dockerfile: Dockerfile
+    command: ["python", "-m", "app.narrator"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      NARRATOR_INTERVAL_SECONDS: "900"
+      CLAUDE_MODEL: "claude-opus-4-7"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   pgdata:
