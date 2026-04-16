@@ -8,6 +8,7 @@ RUN npm install --no-audit --no-fund
 COPY frontend/tsconfig.json frontend/next.config.js frontend/postcss.config.js \
      frontend/tailwind.config.ts frontend/next-env.d.ts ./
 COPY frontend/app ./app
+COPY frontend/lib ./lib
 
 RUN npm run build
 
