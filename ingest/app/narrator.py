@@ -134,16 +134,18 @@ async def fetch_candidates() -> tuple[list[dict[str, Any]], list[dict[str, Any]]
         }
         for r in vol_rows
     ]
-    coherence = [
-        {
-            "event_id": r["event_id"],
-            "event_title": r["title"],
-            "sum_yes": float(r["sum_yes"]) if r["sum_yes"] is not None else None,
-            "arb_gap": float(r["sum_yes"] - 1.0) if r["sum_yes"] is not None else None,
-            "n_markets": int(r["n"]),
-        }
-        for r in coh_rows
-    ]
+    coherence = []
+    for r in coh_rows:
+        sy = float(r["sum_yes"]) if r["sum_yes"] is not None else None
+        coherence.append(
+            {
+                "event_id": r["event_id"],
+                "event_title": r["title"],
+                "sum_yes": sy,
+                "arb_gap": (sy - 1.0) if sy is not None else None,
+                "n_markets": int(r["n"]),
+            }
+        )
     return volatility, coherence
 
 
