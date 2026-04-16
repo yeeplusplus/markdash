@@ -10,6 +10,9 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
 from .db import engine
+from .routers import events as events_router
+from .routers import insights as insights_router
+from .routers import markets as markets_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -49,6 +52,10 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="markdash", lifespan=lifespan)
+
+app.include_router(markets_router.router)
+app.include_router(events_router.router)
+app.include_router(insights_router.router)
 
 
 @app.get("/healthz")
